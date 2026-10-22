@@ -14,7 +14,8 @@ import * as Sharing from "expo-sharing";
 import { captureRef } from "react-native-view-shot";
 
 export default function App() {
-  const { width } = Dimensions.get("window");
+const { width } = Dimensions.get("window");
+const largura = Math.min(width, 420);
 
   const cores = [
     "#FFFFFF", // branco
@@ -83,7 +84,7 @@ export default function App() {
     }
   }
 
-  const tamanhoPixel = Math.floor((width - 32) / 8);
+const tamanhoPixel = Math.floor((largura - 32) / 8);
 
   return (
     <View style={styles.container}>
@@ -91,14 +92,13 @@ export default function App() {
 
       <Text style={styles.titulo}>Pixel</Text>
 
-      {/* Paleta de cores */}
       <View style={styles.paleta}>
         {cores.map((cor) => (
           <TouchableOpacity
             key={cor}
             style={{
-              width: width / 6 - 8,
-              height: width / 6 - 8,
+              width: largura / 6 - 8,
+              height: largura / 6 - 8,
               backgroundColor: cor,
               borderWidth: cor === corAtual ? 3 : 1,
               borderColor: "#777",
@@ -119,17 +119,16 @@ export default function App() {
         ))}
       </View>
 
-      {/* Cor selecionada */}
       <Text style={styles.textoCor}>
         Cor selecionada: {corAtual}
       </Text>
 
-      {/* Grade de 8 x 8 pixels */}
-      <View
-        ref={gradeRef}
-        collapsable={false}
-        style={styles.grade}
-      >
+ <View
+  ref={gradeRef}
+  collapsable={false}
+  style={[styles.grade, { width: tamanhoPixel * 8 + 2 }]}
+
+>
         {pixels.map((p, index) => (
           <TouchableOpacity
             key={index}
@@ -190,7 +189,7 @@ const styles = StyleSheet.create({
     borderColor: "#000",
   },
   botoes: {
-    flexDirection: "row",
+    flexDirection: "center",
     justifyContent: "center",
     alignItems: "center",
     gap: 12,
